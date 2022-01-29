@@ -1,5 +1,6 @@
 package com.marina.shoppinglist.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.marina.shoppinglist.databinding.ActivityNewNoteBinding
 import com.marina.shoppinglist.entities.NoteItem
 import com.marina.shoppinglist.fragments.NoteFragment
 import com.marina.shoppinglist.utils.HtmlManager
+import com.marina.shoppinglist.utils.MyTouchListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +32,12 @@ class NewNoteActivity : AppCompatActivity() {
         setContentView(binding.root)
         actionBarSettings()
         getNote()
+        init()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun init() {
+        binding.colorPicker.setOnTouchListener(MyTouchListener())
     }
 
     private fun getNote() {
