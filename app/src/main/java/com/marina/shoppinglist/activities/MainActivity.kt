@@ -5,10 +5,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.ActivityMainBinding
+import com.marina.shoppinglist.dialogs.NewListDialog
 import com.marina.shoppinglist.fragments.FragmentManager
 import com.marina.shoppinglist.fragments.NoteFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
     lateinit var binding: ActivityMainBinding
 
@@ -33,10 +34,15 @@ class MainActivity : AppCompatActivity() {
                     Log.d("myLog", "Shop List")
                 }
                 R.id.new_item -> {
-                    FragmentManager.currentFrag?.onClickNew()
+//                    FragmentManager.currentFrag?.onClickNew()
+                        NewListDialog.shopDialog(this, this)
                 }
             }
             true
         }
+    }
+
+    override fun onClick(name: String) {
+        Log.d("MyLogs", "Name: $name")
     }
 }
