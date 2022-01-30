@@ -11,6 +11,8 @@ import com.marina.shoppinglist.activities.MainApp
 import com.marina.shoppinglist.database.MainViewModel
 import com.marina.shoppinglist.databinding.FragmentShopListNamesBinding
 import com.marina.shoppinglist.dialogs.NewListDialog
+import com.marina.shoppinglist.entities.ShoppingListName
+import com.marina.shoppinglist.utils.TimeManager
 
 class ShopListNamesFragment : BaseFragment() {
 
@@ -23,9 +25,16 @@ class ShopListNamesFragment : BaseFragment() {
     override fun onClickNew() {
         NewListDialog.shopDialog(activity as AppCompatActivity, object : NewListDialog.Listener {
             override fun onClick(name: String) {
-                Log.d("MyLogs", "Name: $name")
+                val shopListName = ShoppingListName(
+                    null,
+                    name,
+                    TimeManager.getCurrentTime(),
+                    0,
+                    0,
+                    ""
+                )
+                mainViewModel.insertShopListName(shopListName)
             }
-
         })
     }
 
@@ -52,7 +61,7 @@ class ShopListNamesFragment : BaseFragment() {
     }
 
     private fun observer() {
-        mainViewModel.allNotes.observe(viewLifecycleOwner, {
+        mainViewModel.allShopLisNames.observe(viewLifecycleOwner, {
 
         })
     }

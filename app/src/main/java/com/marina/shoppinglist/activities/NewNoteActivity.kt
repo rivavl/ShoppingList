@@ -21,7 +21,7 @@ import com.marina.shoppinglist.entities.NoteItem
 import com.marina.shoppinglist.fragments.NoteFragment
 import com.marina.shoppinglist.utils.HtmlManager
 import com.marina.shoppinglist.utils.MyTouchListener
-import java.text.SimpleDateFormat
+import com.marina.shoppinglist.utils.TimeManager
 import java.util.*
 
 class NewNoteActivity : AppCompatActivity() {
@@ -165,14 +165,9 @@ class NewNoteActivity : AppCompatActivity() {
             null,
             binding.edTitle.text.toString(),
             HtmlManager.toHtml(binding.edDescription.text),
-            getCurrentTime(),
+            TimeManager.getCurrentTime(),
             ""
         )
-    }
-
-    private fun getCurrentTime(): String {
-        val formatter = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
-        return formatter.format(Calendar.getInstance().time)
     }
 
     private fun actionBarSettings() {
