@@ -8,6 +8,7 @@ import com.marina.shoppinglist.databinding.ActivityMainBinding
 import com.marina.shoppinglist.dialogs.NewListDialog
 import com.marina.shoppinglist.fragments.FragmentManager
 import com.marina.shoppinglist.fragments.NoteFragment
+import com.marina.shoppinglist.fragments.ShopListNamesFragment
 
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
     }
 
@@ -32,10 +34,10 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                 }
                 R.id.shop_list -> {
                     Log.d("myLog", "Shop List")
+                    FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
                 }
                 R.id.new_item -> {
-//                    FragmentManager.currentFrag?.onClickNew()
-                        NewListDialog.shopDialog(this, this)
+                    FragmentManager.currentFrag?.onClickNew()
                 }
             }
             true
