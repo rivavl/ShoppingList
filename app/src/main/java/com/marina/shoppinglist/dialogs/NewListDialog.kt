@@ -3,11 +3,12 @@ package com.marina.shoppinglist.dialogs
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.NewListDialogBinding
 
 object NewListDialog {
 
-    fun shopDialog(context: Context, listener: Listener) {
+    fun shopDialog(context: Context, listener: Listener, name: String) {
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(context)
 
@@ -15,6 +16,10 @@ object NewListDialog {
         builder.setView(binding.root)
 
         binding.apply {
+            edNewListName.setText(name)
+            if (name.isNotEmpty()) {
+                bCreate.text = context.getString(R.string.update)
+            }
             bCreate.setOnClickListener {
                 val listName = edNewListName.text.toString()
                 if (listName.isNotEmpty()) {
