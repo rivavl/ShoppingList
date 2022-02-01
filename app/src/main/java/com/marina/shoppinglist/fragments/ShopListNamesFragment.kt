@@ -12,11 +12,13 @@ import com.marina.shoppinglist.activities.MainApp
 import com.marina.shoppinglist.database.MainViewModel
 import com.marina.shoppinglist.database.ShopListNameAdapter
 import com.marina.shoppinglist.databinding.FragmentShopListNamesBinding
+import com.marina.shoppinglist.dialogs.DeleteDialog
 import com.marina.shoppinglist.dialogs.NewListDialog
+import com.marina.shoppinglist.entities.NoteItem
 import com.marina.shoppinglist.entities.ShoppingListName
 import com.marina.shoppinglist.utils.TimeManager
 
-class ShopListNamesFragment : BaseFragment() {
+class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
 
     private lateinit var binding: FragmentShopListNamesBinding
     private lateinit var adapter: ShopListNameAdapter
@@ -61,7 +63,7 @@ class ShopListNamesFragment : BaseFragment() {
 
     private fun initRcView() = with(binding) {
         rcView.layoutManager = LinearLayoutManager(activity)
-        adapter = ShopListNameAdapter()
+        adapter = ShopListNameAdapter(this@ShopListNamesFragment)
         rcView.adapter = adapter
     }
 
@@ -74,5 +76,18 @@ class ShopListNamesFragment : BaseFragment() {
     companion object {
         @JvmStatic
         fun newInstance() = ShopListNamesFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        DeleteDialog.shopDialog(context as AppCompatActivity, object : DeleteDialog.Listener {
+            override fun onClick() {
+                mainViewModel.deleteShopListName(id)
+            }
+
+        })
+    }
+
+    override fun onClickItem(note: NoteItem) {
+
     }
 }
