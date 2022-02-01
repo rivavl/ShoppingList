@@ -2,6 +2,7 @@ package com.marina.shoppinglist.database
 
 import androidx.lifecycle.*
 import com.marina.shoppinglist.entities.NoteItem
+import com.marina.shoppinglist.entities.ShopListItem
 import com.marina.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -18,6 +19,10 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
 
     fun insertShopListName(listNameItem: ShopListNameItem) = viewModelScope.launch {
         dao.insertShopListName(listNameItem)
+    }
+
+    fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.insertItem(shopListItem)
     }
 
     fun updateNote(note: NoteItem) = viewModelScope.launch {

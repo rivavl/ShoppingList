@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.marina.shoppinglist.entities.LibraryItem
 import com.marina.shoppinglist.entities.NoteItem
-import com.marina.shoppinglist.entities.ShoppingListItem
+import com.marina.shoppinglist.entities.ShopListItem
 import com.marina.shoppinglist.entities.ShopListNameItem
 
 @Database(
     entities = [LibraryItem::class, NoteItem::class,
-        ShoppingListItem::class, ShopListNameItem::class], version = 1
+        ShopListItem::class, ShopListNameItem::class], version = 1
 )
 abstract class MainDatabase() : RoomDatabase() {
     abstract fun getDao(): Dao

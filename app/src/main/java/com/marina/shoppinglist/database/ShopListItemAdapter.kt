@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.ListNameItemBinding
 import com.marina.shoppinglist.entities.ShopListNameItem
-import com.marina.shoppinglist.entities.ShoppingListItem
+import com.marina.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) :
-    ListAdapter<ShoppingListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
+    ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return if (viewType == 0)
@@ -32,11 +32,11 @@ class ShopListItemAdapter(private val listener: Listener) :
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ListNameItemBinding.bind(view)
 
-        fun setItemData(shopListItem: ShoppingListItem, listener: Listener) = with(binding) {
+        fun setItemData(shopListItem: ShopListItem, listener: Listener) = with(binding) {
 
         }
 
-        fun setLibraryData(shopListNameItem: ShoppingListItem, listener: Listener) = with(binding) {
+        fun setLibraryData(shopListNameItem: ShopListItem, listener: Listener) = with(binding) {
 
         }
 
@@ -61,18 +61,18 @@ class ShopListItemAdapter(private val listener: Listener) :
         return getItem(position).itemType
     }
 
-    class ItemComparator() : DiffUtil.ItemCallback<ShoppingListItem>() {
+    class ItemComparator() : DiffUtil.ItemCallback<ShopListItem>() {
 
         override fun areItemsTheSame(
-            oldItem: ShoppingListItem,
-            newItem: ShoppingListItem
+            oldItem: ShopListItem,
+            newItem: ShopListItem
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ShoppingListItem,
-            newItem: ShoppingListItem
+            oldItem: ShopListItem,
+            newItem: ShopListItem
         ): Boolean {
             return oldItem == newItem
         }
