@@ -3,6 +3,7 @@ package com.marina.shoppinglist.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import com.marina.shoppinglist.R
 import com.marina.shoppinglist.database.MainViewModel
@@ -13,6 +14,7 @@ class ShopListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShopListBinding
     private var shopListNameItem: ShopListNameItem? = null
+    private lateinit var saveItem: MenuItem
 
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModel.MainViewModelFactory((applicationContext as MainApp).database)
@@ -27,10 +29,30 @@ class ShopListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.shop_list_menu, menu)
-
+        saveItem = menu?.findItem(R.id.save_item)!!
+        val newItem = menu.findItem(R.id.new_item)!!
+        newItem.setOnActionExpandListener(expandActionView())
+        saveItem.isVisible = false
         return true
     }
-    private fun init(){
+
+    private fun expandActionView(): MenuItem.OnActionExpandListener {
+        return object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                saveItem.isVisible = true
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                saveItem.isVisible = false
+                invalidateOptionsMenu()
+                return true
+            }
+
+        }
+    }
+
+    private fun init() {
         shopListNameItem = intent.getSerializableExtra(SHOP_LIST_NAME) as ShopListNameItem
         binding.tvtest.text = shopListNameItem?.name
     }
