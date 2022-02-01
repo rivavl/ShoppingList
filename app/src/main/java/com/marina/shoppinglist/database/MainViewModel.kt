@@ -2,8 +2,7 @@ package com.marina.shoppinglist.database
 
 import androidx.lifecycle.*
 import com.marina.shoppinglist.entities.NoteItem
-import com.marina.shoppinglist.entities.ShoppingListItem
-import com.marina.shoppinglist.entities.ShoppingListName
+import com.marina.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -11,22 +10,22 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
 
     private val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
-    val allShopLisNames: LiveData<List<ShoppingListName>> = dao.getAllShopListNames().asLiveData()
+    val allShopLisNames: LiveData<List<ShopListNameItem>> = dao.getAllShopListNames().asLiveData()
 
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
     }
 
-    fun insertShopListName(listName: ShoppingListName) = viewModelScope.launch {
-        dao.insertShopListName(listName)
+    fun insertShopListName(listNameItem: ShopListNameItem) = viewModelScope.launch {
+        dao.insertShopListName(listNameItem)
     }
 
     fun updateNote(note: NoteItem) = viewModelScope.launch {
         dao.updateNote(note)
     }
 
-    fun updateListName(shopListName: ShoppingListName) = viewModelScope.launch {
-        dao.updateListName(shopListName)
+    fun updateListName(shopListNameItem: ShopListNameItem) = viewModelScope.launch {
+        dao.updateListName(shopListNameItem)
     }
 
     fun deleteNote(id: Int) = viewModelScope.launch {
