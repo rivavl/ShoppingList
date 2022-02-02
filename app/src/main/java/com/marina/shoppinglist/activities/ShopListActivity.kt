@@ -1,5 +1,6 @@
 package com.marina.shoppinglist.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,7 @@ import com.marina.shoppinglist.databinding.ActivityShopListBinding
 import com.marina.shoppinglist.dialogs.EditListItemDialog
 import com.marina.shoppinglist.entities.ShopListItem
 import com.marina.shoppinglist.entities.ShopListNameItem
+import com.marina.shoppinglist.utils.ShareHelper
 
 class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
@@ -58,6 +60,12 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             }
             R.id.clear_list -> {
                 mainViewModel.deleteShopList(shopListNameItem?.id!!, false)
+            }
+            R.id.share_list -> {
+                startActivity(Intent.createChooser(
+                    ShareHelper.shareShopList(adapter?.currentList!!, shopListNameItem?.name!!),
+                    "Share by"
+                ))
             }
         }
         return super.onOptionsItemSelected(item)
