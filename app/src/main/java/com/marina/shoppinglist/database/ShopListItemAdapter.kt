@@ -1,8 +1,10 @@
 package com.marina.shoppinglist.database
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +42,9 @@ class ShopListItemAdapter(private val listener: Listener) :
                 tvName.text = shopListItem.name
                 tvInfo.text = shopListItem.itemInfo
                 tvInfo.visibility = infoVisibility(shopListItem)
+                chBox.setOnClickListener {
+                    setPaintFlagAndColor(binding)
+                }
             }
         }
 
@@ -47,7 +52,23 @@ class ShopListItemAdapter(private val listener: Listener) :
             val binding = ShopLibraryListItemBinding.bind(view)
         }
 
-        fun infoVisibility(shopListItem: ShopListItem) : Int{
+        private fun setPaintFlagAndColor(binding: ShopListItemBinding) {
+            binding.apply {
+                if (chBox.isChecked) {
+                    tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvInfo.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray_light))
+                    tvInfo.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray_light))
+                } else {
+                    tvName.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvInfo.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                    tvInfo.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                }
+            }
+        }
+
+        private fun infoVisibility(shopListItem: ShopListItem): Int {
             return if (shopListItem.itemInfo.isNullOrEmpty()) {
                 return View.GONE
             } else {
