@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.marina.shoppinglist.R
-import com.marina.shoppinglist.databinding.ListNameItemBinding
 import com.marina.shoppinglist.databinding.ShopLibraryListItemBinding
 import com.marina.shoppinglist.databinding.ShopListItemBinding
-import com.marina.shoppinglist.entities.ShopListNameItem
 import com.marina.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) :
@@ -45,7 +43,13 @@ class ShopListItemAdapter(private val listener: Listener) :
                 chBox.isChecked = shopListItem.itemChecked
                 setPaintFlagAndColor(binding)
                 chBox.setOnClickListener {
-                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked))
+                    listener.onClickItem(
+                        shopListItem.copy(itemChecked = chBox.isChecked),
+                        CHECK_BOX
+                    )
+                }
+                imEdit.setOnClickListener {
+                    listener.onClickItem(shopListItem, EDIT)
                 }
             }
         }
@@ -59,8 +63,18 @@ class ShopListItemAdapter(private val listener: Listener) :
                 if (chBox.isChecked) {
                     tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                     tvInfo.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                    tvName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray_light))
-                    tvInfo.setTextColor(ContextCompat.getColor(binding.root.context, R.color.gray_light))
+                    tvName.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.gray_light
+                        )
+                    )
+                    tvInfo.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.gray_light
+                        )
+                    )
                 } else {
                     tvName.paintFlags = Paint.ANTI_ALIAS_FLAG
                     tvInfo.paintFlags = Paint.ANTI_ALIAS_FLAG
@@ -117,6 +131,11 @@ class ShopListItemAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onClickItem(shopListItem: ShopListItem)
+        fun onClickItem(shopListItem: ShopListItem, state: Int)
+    }
+
+    companion object {
+        const val EDIT = 0
+        const val CHECK_BOX = 1
     }
 }

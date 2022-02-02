@@ -8,7 +8,7 @@ import com.marina.shoppinglist.databinding.NewListDialogBinding
 
 object NewListDialog {
 
-    fun shopDialog(context: Context, listener: Listener, name: String) {
+    fun showDialog(context: Context, listener: Listener, name: String) {
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(context)
 

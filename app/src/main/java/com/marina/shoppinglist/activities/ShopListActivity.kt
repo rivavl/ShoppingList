@@ -12,6 +12,7 @@ import com.marina.shoppinglist.R
 import com.marina.shoppinglist.database.MainViewModel
 import com.marina.shoppinglist.database.ShopListItemAdapter
 import com.marina.shoppinglist.databinding.ActivityShopListBinding
+import com.marina.shoppinglist.dialogs.EditListItemDialog
 import com.marina.shoppinglist.entities.ShopListItem
 import com.marina.shoppinglist.entities.ShopListNameItem
 
@@ -58,7 +59,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         val item = ShopListItem(
             null,
             edItem?.text.toString(),
-            null,
+            "",
             false,
             shopListNameItem?.id!!,
             0
@@ -108,7 +109,20 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClickItem(shopLisItem: ShopListItem) {
+    override fun onClickItem(shopLisItem: ShopListItem, state: Int) {
+        when (state) {
+            ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopLisItem)
+            ShopListItemAdapter.EDIT -> editListItem(shopLisItem)
+        }
         mainViewModel.updateListItem(shopLisItem)
+    }
+
+    private fun editListItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener {
+            override fun onClick(item: ShopListItem) {
+                mainViewModel.updateListItem(item)
+            }
+
+        })
     }
 }

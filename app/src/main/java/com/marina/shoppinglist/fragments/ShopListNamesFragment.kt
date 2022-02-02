@@ -28,7 +28,7 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
     }
 
     override fun onClickNew() {
-        NewListDialog.shopDialog(activity as AppCompatActivity, object : NewListDialog.Listener {
+        NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener {
             override fun onClick(name: String) {
                 val shopListName = ShopListNameItem(
                     null,
@@ -95,7 +95,7 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
     }
 
     override fun editItem(shopListNameItem: ShopListNameItem) {
-        NewListDialog.shopDialog(activity as AppCompatActivity, object : NewListDialog.Listener {
+        NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener {
             override fun onClick(name: String) {
                 mainViewModel.updateListName(shopListNameItem.copy(name = name))
             }
