@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.ListNameItemBinding
+import com.marina.shoppinglist.databinding.ShopLibraryListItemBinding
+import com.marina.shoppinglist.databinding.ShopListItemBinding
 import com.marina.shoppinglist.entities.ShopListNameItem
 import com.marina.shoppinglist.entities.ShopListItem
 
@@ -29,15 +31,18 @@ class ShopListItemAdapter(private val listener: Listener) :
         }
     }
 
-    class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ListNameItemBinding.bind(view)
+    class ItemHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setItemData(shopListItem: ShopListItem, listener: Listener) = with(binding) {
 
+        fun setItemData(shopListItem: ShopListItem, listener: Listener) {
+            val binding = ShopListItemBinding.bind(view)
+            binding.apply {
+                tvName.text = shopListItem.name
+            }
         }
 
-        fun setLibraryData(shopListNameItem: ShopListItem, listener: Listener) = with(binding) {
-
+        fun setLibraryData(shopListNameItem: ShopListItem, listener: Listener) {
+            val binding = ShopLibraryListItemBinding.bind(view)
         }
 
         companion object {
