@@ -38,11 +38,21 @@ class ShopListItemAdapter(private val listener: Listener) :
             val binding = ShopListItemBinding.bind(view)
             binding.apply {
                 tvName.text = shopListItem.name
+                tvInfo.text = shopListItem.itemInfo
+                tvInfo.visibility = infoVisibility(shopListItem)
             }
         }
 
         fun setLibraryData(shopListNameItem: ShopListItem, listener: Listener) {
             val binding = ShopLibraryListItemBinding.bind(view)
+        }
+
+        fun infoVisibility(shopListItem: ShopListItem) : Int{
+            return if (shopListItem.itemInfo.isNullOrEmpty()) {
+                return View.GONE
+            } else {
+                View.VISIBLE
+            }
         }
 
         companion object {
