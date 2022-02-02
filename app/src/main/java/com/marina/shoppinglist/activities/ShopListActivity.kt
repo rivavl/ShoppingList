@@ -59,7 +59,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             null,
             edItem?.text.toString(),
             null,
-            0,
+            false,
             shopListNameItem?.id!!,
             0
         )
@@ -108,15 +108,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun deleteItem(id: Int) {
-
-    }
-
-    override fun onClickItem(shopListNameItem: ShopListNameItem) {
-
-    }
-
-    override fun editItem(shopListNameItem: ShopListNameItem) {
-
+    override fun onClickItem(shopLisItem: ShopListItem) {
+        mainViewModel.updateListItem(shopLisItem)
     }
 }
