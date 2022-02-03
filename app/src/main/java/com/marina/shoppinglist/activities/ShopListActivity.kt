@@ -17,6 +17,7 @@ import com.marina.shoppinglist.database.MainViewModel
 import com.marina.shoppinglist.database.ShopListItemAdapter
 import com.marina.shoppinglist.databinding.ActivityShopListBinding
 import com.marina.shoppinglist.dialogs.EditListItemDialog
+import com.marina.shoppinglist.entities.LibraryItem
 import com.marina.shoppinglist.entities.ShopListItem
 import com.marina.shoppinglist.entities.ShopListNameItem
 import com.marina.shoppinglist.utils.ShareHelper
@@ -179,6 +180,11 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         when (state) {
             ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopLisItem)
             ShopListItemAdapter.EDIT -> editListItem(shopLisItem)
+            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopLisItem)
+            ShopListItemAdapter.DELETE_LIBRARY_ITEM -> {
+                mainViewModel.deleteLibraryItem(shopLisItem.id!!)
+                mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+            }
         }
         mainViewModel.updateListItem(shopLisItem)
     }
@@ -187,6 +193,16 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener {
             override fun onClick(item: ShopListItem) {
                 mainViewModel.updateListItem(item)
+            }
+
+        })
+    }
+
+    private fun editLibraryItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener {
+            override fun onClick(item: ShopListItem) {
+                mainViewModel.updateLibraryItem(LibraryItem(item.id, item.name))
+                mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
             }
 
         })
