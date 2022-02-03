@@ -15,6 +15,7 @@ import com.marina.shoppinglist.settings.SettingsActivity
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
     lateinit var binding: ActivityMainBinding
+    private var currentMenuItemId = R.id.shop_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +32,12 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                     startActivity(Intent(this, SettingsActivity::class.java))
                 }
                 R.id.notes -> {
+                    currentMenuItemId = R.id.notes
                     Log.d("myLog", "Notes")
                     FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list -> {
+                    currentMenuItemId = R.id.shop_list
                     Log.d("myLog", "Shop List")
                     FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
                 }
@@ -44,6 +47,11 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
             }
             true
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bNav.selectedItemId = currentMenuItemId
     }
 
     override fun onClick(name: String) {
