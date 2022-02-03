@@ -1,5 +1,6 @@
 package com.marina.shoppinglist.database
 
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,9 @@ import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.NoteListItemBinding
 import com.marina.shoppinglist.entities.NoteItem
 import com.marina.shoppinglist.utils.HtmlManager
+import com.marina.shoppinglist.utils.TimeManager
 
-class NoteAdapter(private val listener: Listener) :
+class NoteAdapter(private val listener: Listener, private val defPref: SharedPreferences) :
     ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -19,16 +21,16 @@ class NoteAdapter(private val listener: Listener) :
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position), listener)
+        holder.setData(getItem(position), listener, defPref)
     }
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = NoteListItemBinding.bind(view)
 
-        fun setData(note: NoteItem, listener: Listener) = with(binding) {
+        fun setData(note: NoteItem, listener: Listener, defPref: SharedPreferences) = with(binding) {
             tvTitle.text = note.title
             tvDecription.text = HtmlManager.getFromHtml(note.content).trim()
-            tvTime.text = note.time
+            tvTime.text = TimeManager.getTimeFormat(note.time, defPref)
             itemView.setOnClickListener {
                 listener.onClickItem(note)
             }
