@@ -64,6 +64,9 @@ class ShopListItemAdapter(private val listener: Listener) :
                 imDelete.setOnClickListener {
                     listener.onClickItem(shopListItem, DELETE_LIBRARY_ITEM)
                 }
+                itemView.setOnClickListener {
+                    listener.onClickItem(shopListItem, ADD_LIBRARY_ITEM)
+                }
             }
 
 
@@ -150,5 +153,6 @@ class ShopListItemAdapter(private val listener: Listener) :
         const val CHECK_BOX = 1
         const val EDIT_LIBRARY_ITEM = 2
         const val DELETE_LIBRARY_ITEM = 3
+        const val ADD_LIBRARY_ITEM = 4
     }
 }

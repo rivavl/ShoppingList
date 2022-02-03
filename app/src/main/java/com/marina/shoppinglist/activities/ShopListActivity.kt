@@ -76,7 +76,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.save_item -> {
-                addNewShopItem()
+                addNewShopItem(edItem?.text.toString())
             }
             R.id.delete_list -> {
                 mainViewModel.deleteShopList(shopListNameItem?.id!!, true)
@@ -95,11 +95,11 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun addNewShopItem() {
-        if (edItem?.text.toString().isEmpty()) return
+    private fun addNewShopItem(name: String) {
+        if (name.isEmpty()) return
         val item = ShopListItem(
             null,
-            edItem?.text.toString(),
+            name,
             "",
             false,
             shopListNameItem?.id!!,
@@ -176,17 +176,18 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClickItem(shopLisItem: ShopListItem, state: Int) {
+    override fun onClickItem(shopListItem: ShopListItem, state: Int) {
         when (state) {
-            ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopLisItem)
-            ShopListItemAdapter.EDIT -> editListItem(shopLisItem)
-            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopLisItem)
+            ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopListItem)
+            ShopListItemAdapter.EDIT -> editListItem(shopListItem)
+            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopListItem)
+            ShopListItemAdapter.ADD_LIBRARY_ITEM -> addNewShopItem(shopListItem.name)
             ShopListItemAdapter.DELETE_LIBRARY_ITEM -> {
-                mainViewModel.deleteLibraryItem(shopLisItem.id!!)
+                mainViewModel.deleteLibraryItem(shopListItem.id!!)
                 mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
             }
         }
-        mainViewModel.updateListItem(shopLisItem)
+        mainViewModel.updateListItem(shopListItem)
     }
 
     private fun editListItem(item: ShopListItem) {
