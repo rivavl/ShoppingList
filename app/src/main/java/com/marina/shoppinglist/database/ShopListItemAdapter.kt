@@ -56,6 +56,9 @@ class ShopListItemAdapter(private val listener: Listener) :
 
         fun setLibraryData(shopListNameItem: ShopListItem, listener: Listener) {
             val binding = ShopLibraryListItemBinding.bind(view)
+            binding.apply {
+                tvName.text = shopListNameItem.name
+            }
         }
 
         private fun setPaintFlagAndColor(binding: ShopListItemBinding) {
