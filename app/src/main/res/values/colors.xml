@@ -10,6 +10,7 @@
     <color name="green_main_dark">#0A7C32</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_hint">#57FFFFFF</color>
     <color name="gray_light">#9E9D9D</color>
 
 <!--    colorPicker-->
@@ -19,4 +20,9 @@
     <color name="picker_black">#373737</color>
     <color name="picker_yellow">#E8C81D</color>
     <color name="picker_orange">#FF9800</color>
+
+    <color name="blue_light">#41BEEF</color>
+    <color name="blue_dark">#328BAE</color>
+    <color name="green_light">#3EED5C</color>
+    <color name="green_dark">#238033</color>
 </resources>

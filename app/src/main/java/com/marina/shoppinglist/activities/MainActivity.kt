@@ -1,9 +1,11 @@
 package com.marina.shoppinglist.activities
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.marina.shoppinglist.R
 import com.marina.shoppinglist.databinding.ActivityMainBinding
 import com.marina.shoppinglist.dialogs.NewListDialog
@@ -15,11 +17,14 @@ import com.marina.shoppinglist.settings.SettingsActivity
 class MainActivity : AppCompatActivity(), NewListDialog.Listener {
 
     lateinit var binding: ActivityMainBinding
+    private lateinit var defPref: SharedPreferences
     private var currentMenuItemId = R.id.shop_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        defPref = PreferenceManager.getDefaultSharedPreferences(this)
+        setTheme(getSelectedTheme())
         setContentView(binding.root)
         FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
@@ -46,6 +51,14 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                 }
             }
             true
+        }
+    }
+
+    private fun getSelectedTheme(): Int{
+        return if (defPref.getString("theme_key", "blue") == "blue") {
+            R.style.Theme_ShoppingListBlue
+        } else {
+            R.style.Theme_ShoppingListGreen
         }
     }
 
