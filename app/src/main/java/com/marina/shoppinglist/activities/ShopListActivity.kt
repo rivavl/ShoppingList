@@ -86,10 +86,12 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 mainViewModel.deleteShopList(shopListNameItem?.id!!, false)
             }
             R.id.share_list -> {
-                startActivity(Intent.createChooser(
-                    ShareHelper.shareShopList(adapter?.currentList!!, shopListNameItem?.name!!),
-                    "Share by"
-                ))
+                startActivity(
+                    Intent.createChooser(
+                        ShareHelper.shareShopList(adapter?.currentList!!, shopListNameItem?.name!!),
+                        "Share by"
+                    )
+                )
             }
         }
         return super.onOptionsItemSelected(item)
@@ -123,7 +125,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     private fun libraryItemObserver() {
         mainViewModel.libraryItems.observe(this, {
             val tmpShopList = ArrayList<ShopListItem>()
-            it.forEach {item ->
+            it.forEach { item ->
                 val shopItem = ShopListItem(
                     item.id,
                     item.name,
@@ -150,7 +152,8 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 saveItem.isVisible = true
                 edItem?.addTextChangedListener(textWatcher)
                 libraryItemObserver()
-                mainViewModel.getAllItemsFromList(shopListNameItem?.id!!).removeObservers(this@ShopListActivity)
+                mainViewModel.getAllItemsFromList(shopListNameItem?.id!!)
+                    .removeObservers(this@ShopListActivity)
                 mainViewModel.getAllLibraryItems("%%")
                 return true
             }
@@ -205,7 +208,23 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 mainViewModel.updateLibraryItem(LibraryItem(item.id, item.name))
                 mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
             }
-
         })
+    }
+
+    private fun saveItemCount() {
+        var checkedItemCounter = 0
+        adapter?.currentList?.forEach {
+            if (it.itemChecked) checkedItemCounter++
+        }
+        val tmpShopListNameItem = shopListNameItem?.copy(
+            allItemCounter = adapter?.itemCount!!,
+            checkedItemsCounter = checkedItemCounter
+        )
+        mainViewModel.updateListName(tmpShopListNameItem!!)
+    }
+
+    override fun onBackPressed() {
+        saveItemCount()
+        super.onBackPressed()
     }
 }
