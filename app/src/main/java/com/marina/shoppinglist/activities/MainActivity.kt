@@ -13,6 +13,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.marina.shoppinglist.R
+import com.marina.shoppinglist.billing.BillingManager
 import com.marina.shoppinglist.databinding.ActivityMainBinding
 import com.marina.shoppinglist.dialogs.NewListDialog
 import com.marina.shoppinglist.fragments.FragmentManager
@@ -29,18 +30,20 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     private var iAd: InterstitialAd? = null
     private var adShowCounter = 0
     private var adShowCounterMax = 3
+    private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         defPref = PreferenceManager.getDefaultSharedPreferences(this)
         setTheme(getSelectedTheme())
 
         super.onCreate(savedInstanceState)
+        pref = getSharedPreferences(BillingManager.MAIN_PREF, MODE_PRIVATE)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         currentTheme = defPref.getString("theme_key", "blue").toString()
         FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
         setBottomNavListener()
-        loadInterAd()
+        if (!pref.getBoolean(BillingManager.REMOVE_ADS_KEY, false)) loadInterAd()
     }
 
     private fun loadInterAd() {
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     }
 
     private fun showInterAd(adListener: AdListener) {
-        if (iAd != null && adShowCounter > adShowCounterMax) {
+        if (iAd != null && adShowCounter > adShowCounterMax && !pref.getBoolean(BillingManager.REMOVE_ADS_KEY, false)) {
             iAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     iAd = null
@@ -102,7 +105,10 @@ class MainActivity : AppCompatActivity(), NewListDialog.Listener {
                         override fun onFinish() {
                             currentMenuItemId = R.id.notes
                             Log.d("myLog", "Notes")
-                            FragmentManager.setFragment(NoteFragment.newInstance(), this@MainActivity)
+                            FragmentManager.setFragment(
+                                NoteFragment.newInstance(),
+                                this@MainActivity
+                            )
                         }
                     })
                 }
